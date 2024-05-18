@@ -1,0 +1,120 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Social Media</title>
+
+    <!-- ICON -->
+
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}" />
+
+    {% comment %} CSS {% endcomment %}
+    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Swal -->
+    <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <style>
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      {% comment %} Header {% endcomment %}
+      <header>
+        <div class="header_wrap">
+          <div class="header_inner mcontainer">
+            <div class="left_side">
+              <span
+                class="slide_menu"
+                uk-toggle="target: #wrapper ; cls: is-collapse is-active"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    d="M3 4h18v2H3V4zm0 7h12v2H3v-2zm0 7h18v2H3v-2z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </span>
+
+              <div id="logo">
+                <a href="{% url 'posts:feed' %}">
+                  <img src="{% static 'assets/images/logo_fb.png' %}" alt="" />
+                  <img
+                    src="{% static 'assets/images/logo_fb.png' %}"
+                    class="logo_mobile"
+                    alt=""
+                  />
+                </a>
+              </div>
+            </div>
+
+            <!-- search icon for mobile -->
+            <div
+              class="header-search-icon"
+              uk-toggle="target: #wrapper ; cls: show-searchbox"
+            ></div>
+            <div class="header_search">
+              <i class="uil-search-alt"></i>
+              <input
+                value=""
+                type="text"
+                class="form-control"
+                placeholder="Tìm kiếm trên Facebook"
+                id="search-input"
+                autocomplete="off"
+              />
+              <div uk-drop="mode: click" class="header_search_dropdown">
+                <h4 class="search_title">Recently</h4>
+                <ul id="search-results"></ul>
+              </div>
+            </div>
+
+            {% comment %} right side {% endcomment %}
+          </div>
+        </div>
+      </header>
+      {% comment %} Sidebar {% endcomment %}
+    </div>
+    {% block content %} {% endblock content %}
+  </body>
+
+  {% comment %} JS {% endcomment %}
+  <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"
+  ></script>
+  <script src="{% static 'assets/js/tippy.all.min.js' %}"></script>
+  <script src="{% static 'assets/js/uikit.js' %}"></script>
+  <script src="{% static 'assets/js/simplebar.js' %}"></script>
+  <script src="{% static 'assets/js/custom.js' %}"></script>
+  <script src="{% static 'assets/js/function.js' %}"></script>
+  <script src="{% static 'assets/js/group.js' %}"></script>
+  <script src="{% static 'assets/js/post.js' %}"></script>
+  <script src="{% static 'assets/js/message.js' %}"></script>
+  <script src="{% static 'assets/js/bootstrap-select.min.js' %}"></script>
+  <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+</html>
