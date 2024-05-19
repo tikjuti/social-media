@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'comments',
     
     'cloudinary',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
@@ -108,6 +109,10 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = 'userauths.User'
+
+LOGIN_REDIRECT_URL = ''
+LOGIN_URL = 'userauths:register'
+LOGOUT_REDIRECT_URL = "userauths:register"
 
 
 # Password validation

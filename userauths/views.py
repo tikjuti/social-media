@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import authenticate, login, logout
 from userauths.forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 
 from userauths.models import User, Profile
@@ -35,3 +36,27 @@ def RegisterView(request, *args, **kwargs):
     context = {'form': form}
     
     return render(request, 'userauths/register.html', context)
+
+
+def LoginView(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        
+        try:
+            user = User.objects.get(email=email)
+            user = authenticate(email=email, password=password)
+            if user is not None :
+                login(request, user)
+                messages.success(request, "Đăng nhập thành công")
+                return redirect('posts:feed')
+            else :
+                messages.error(request, "Email hoặc mật khẩu không đúng")
+        except:
+            messages.error(request, "Người dùng không tồn tại")
+    return HttpResponseRedirect("/")
+
+def LogoutView(request):
+    logout(request)
+    messages.success(request, 'Đăng xuất thành công')
+    return redirect("userauths:register")

@@ -5,6 +5,7 @@ from django.utils.html import mark_safe
 from shortuuid.django_fields import ShortUUIDField
 from cloudinary.models import CloudinaryField
 import cloudinary.uploader
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -87,41 +88,24 @@ def create_user_profile(sender, instance, created, **kwargs):
         profile = Profile.objects.create(user=instance)
         
         if profile.image:
-            cloudinary_response_image = cloudinary.uploader.upload(
+            cloudinary.uploader.upload(
                 profile.image,
                 folder='media/user_{0}'.format(profile.user.id)
             )
-            profile.image = cloudinary_response_image['secure_url']
+            # profile.image = cloudinary_response_image['secure_url']
 
         if profile.cover_image:
-            cloudinary_response_cover_image = cloudinary.uploader.upload(
+            cloudinary.uploader.upload(
                 profile.cover_image,
                 folder='media/user_{0}'.format(profile.user.id)
             )
-            profile.cover_image = cloudinary_response_cover_image['secure_url']
+            # profile.cover_image = cloudinary_response_cover_image['secure_url']
 
         profile.save()
 
 def save_user_profile(sender, instance, **kwargs):
-	# instance.profile.save()
-    old_profile = Profile.objects.get(user=instance)
+	instance.profile.save()
 
-    # Kiểm tra nếu có ảnh mới và ảnh cũ tồn tại
-    if instance.profile.image and old_profile.image:
-        # Xóa ảnh cũ
-        old_image_public_id = old_profile.image.split('/')[-1].split('.')[0]
-        cloudinary.uploader.destroy(old_profile.image)
-
-    # Upload ảnh mới nếu có
-    if instance.profile.image:
-        cloudinary_response_image = cloudinary.uploader.upload(
-            instance.profile.image,
-            folder='media/user_{0}'.format(old_profile.user.id)
-        )
-        instance.profile.image = cloudinary_response_image['secure_url']
-
-    # Lưu thông tin hồ sơ
-    instance.profile.save()
 
 post_save.connect(create_user_profile, sender=User)
 post_save.connect(save_user_profile, sender=User)
