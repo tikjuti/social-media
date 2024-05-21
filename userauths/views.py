@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from userauths.forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 
 from userauths.models import User, Profile
+from posts.models import Post
 
 # Create your views here.
 
@@ -48,7 +50,7 @@ def LoginView(request):
             user = authenticate(email=email, password=password)
             if user is not None :
                 login(request, user)
-                messages.success(request, "Đăng nhập thành công")
+                # messages.success(request, "Đăng nhập thành công")
                 return redirect('posts:feed')
             else :
                 messages.error(request, "Email hoặc mật khẩu không đúng")
@@ -60,3 +62,42 @@ def LogoutView(request):
     logout(request)
     messages.success(request, 'Đăng xuất thành công')
     return redirect("userauths:register")
+
+
+@login_required
+def my_profile(request):
+    profile = request.user.profile
+    posts = Post.objects.filter(user=request.user, active = True)
+    # groups = Group.objects.filter(active=True, user=request.user)
+    
+    context = {
+        'posts': posts,
+        'profile': profile,
+        # 'groups': groups,
+    }
+    
+    return render(request, 'userauths/my-profile.html', context)
+
+
+@login_required
+def profile_update(request):
+    if  request.method == "POST":
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile) 
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        
+        if p_form.is_valid() and u_form.is_valid():
+            p_form.save()
+            u_form.save()
+            messages.success(request, 'Hồ sơ đã cập nhật thành công')
+            return redirect('userauths:profile-update')
+    else:
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+        u_form = UserUpdateForm(instance=request.user)
+    
+    context = {
+        'p_form': p_form,
+        'u_form': u_form,
+    }
+    
+    return render(request, 'userauths/profile-update.html', context)
+        

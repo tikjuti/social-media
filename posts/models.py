@@ -42,20 +42,20 @@ class Post(models.Model):
             self.slug = slugify(self.title) + "-" + str(uniqueid.lower())
         
         if self.image:
-            image_url = self.image.url
-            cloudinary_response_image = cloudinary.uploader.upload(
-                image_url,
+            # image_url = self.image.url
+            cloudinary.uploader.upload(
+                self.image,
                 folder='media/user_{0}'.format(self.user.id)
             )
-            self.image = cloudinary_response_image['secure_url']
+            # self.image = cloudinary_response_image['secure_url']
             
         if self.video:
-            video_url = self.video.url
-            cloudinary_response_video = cloudinary.uploader.upload(
-                video_url,
+            # video_url = self.video.url
+            cloudinary.uploader.upload(
+                self.video,
                 folder='media/user_{0}'.format(self.user.id)
             )
-            self.video = cloudinary_response_video['secure_url']
+            # self.video = cloudinary_response_video['secure_url']
             
         super(Post, self).save(*args, **kwargs) 
         

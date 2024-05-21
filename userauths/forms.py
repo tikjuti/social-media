@@ -27,7 +27,6 @@ class UserRegisterForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'with-border'
-            # visible.field.widget.attrs['placeholder'] = visible.field.label
 
 
 class ProfileUpdateForm(forms.ModelForm):

@@ -6,4 +6,7 @@ app_name = "posts"
 
 urlpatterns = [
     path("", views.index, name="feed"),
+    
+    
+    path("create-post/", views.create_post, name="create-post"),
 ]
