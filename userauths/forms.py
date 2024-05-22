@@ -17,6 +17,7 @@ class UserRegisterForm(UserCreationForm):
                                 required=True,error_messages={'required' : 'Vui lòng nhập mật khẩu'})
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'id': "", 'placeholder':'Xác nhận mật khẩu'}), 
                                 required=True,error_messages={'required' : 'Vui lòng nhập xác nhận mật khẩu'})
+    # gender = forms.CharField(widget=forms.TextInput(attrs={ 'class': 'with-border' , 'id': "", 'placeholder':'Enter Gender'}))
     
     class Meta:
         model = User
@@ -27,6 +28,7 @@ class UserRegisterForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'with-border'
+            # visible.field.widget.attrs['placeholder'] = visible.field.label
 
 
 class ProfileUpdateForm(forms.ModelForm):

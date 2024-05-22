@@ -559,20 +559,11 @@
                           id="like-comment-btn"
                           data-like-comment="{{c.id}}"
                           class="like-comment{{c.id}} text-red-500"
-                          {%
-                          if
-                          request.user
-                          in
-                          c.likes.all
-                          %}
-                          style="color: red"
-                          {%
-                          else
-                          %}
+                          {% if request.user in c.likes.all %}
+                            style="color: red"
+                          {% else %}  
                           style="color: gray"
-                          {%
-                          endif
-                          %}
+                          {% endif %}
                         >
                           <i id="comment-icon{{c.cid}}" class="fas fa-heart"></i
                         ></a>
@@ -737,8 +728,8 @@
                 ></ion-icon>
 
                 {% if profile.country and profile.city %} Live In
-                <strong> {{profile.city}}, {{profile.country}} </strong> {% else
-                %} Live In
+                <strong> {{profile.city}}, {{profile.country}} </strong> 
+                {% else %} Live In
                 <strong> <a href="" class="dashed">Not added yet</a> </strong>
                 {% endif %}
               </li>
@@ -747,9 +738,10 @@
                   name="globe"
                   class="rounded-full bg-gray-200 text-xl p-1 mr-3"
                 ></ion-icon>
-                {% if profile.country and profile.city %} Live In
-                <strong> {{profile.city}}, {{profile.country}} </strong> {% else
-                %} From
+                {% if profile.country and profile.city %} 
+                  From
+                <strong> {{profile.city}}, {{profile.country}} </strong> 
+                {% else  %} From
                 <strong> <a href="" class="dashed">Not added yet</a> </strong>
                 {% endif %}
               </li>
@@ -1484,41 +1476,4 @@
   </div>
 </div>
 
-<!-- For Night mode -->
-<script>
-  (function (window, document, undefined) {
-    "use strict";
-    if (!("localStorage" in window)) return;
-    var nightMode = localStorage.getItem("gmtNightMode");
-    if (nightMode) {
-      document.documentElement.className += " night-mode";
-    }
-  })(window, document);
-
-  (function (window, document, undefined) {
-    "use strict";
-
-    // Feature test
-    if (!("localStorage" in window)) return;
-
-    // Get our newly insert toggle
-    var nightMode = document.querySelector("#night-mode");
-    if (!nightMode) return;
-
-    // When clicked, toggle night mode on or off
-    nightMode.addEventListener(
-      "click",
-      function (event) {
-        event.preventDefault();
-        document.documentElement.classList.toggle("dark");
-        if (document.documentElement.classList.contains("dark")) {
-          localStorage.setItem("gmtNightMode", true);
-          return;
-        }
-        localStorage.removeItem("gmtNightMode");
-      },
-      false
-    );
-  })(window, document);
-</script>
 {% endblock content %}

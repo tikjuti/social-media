@@ -83,13 +83,52 @@ def my_profile(request):
 def profile_update(request):
     if  request.method == "POST":
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile) 
+        # print(p_form)
         u_form = UserUpdateForm(request.POST, instance=request.user)
+        print(request.POST)
+
+        # Lấy dữ liệu từ request.POST và request.FILES
+        # image = request.FILES.get('image')
+        # cover_image = request.FILES.get('cover_image')
+        # full_name = request.POST.get('full_name')
+        # bio = request.POST.get('bio')
+        # about_me = request.POST.get('about_me')
+        # gender = request.POST.get('gender')
+        # relationship = request.POST.get('relationship')
+        # phone = request.POST.get('phone')
+        # friends_visibility = request.POST.get('friends_visibility')
+        # country = request.POST.get('country')
+        # city = request.POST.get('city')
+        # state = request.POST.get('state')
+        # address = request.POST.get('address')
+        # working_at = request.POST.get('working_at')
+        # instagram = request.POST.get('instagram')
+
+        # Tạo một bản ghi mới trong bảng Post
+        # Profile.objects.create(
+        #     image=image,
+        #     cover_image=cover_image,
+        #     full_name=full_name,
+        #     bio=bio,
+        #     about_me=about_me,
+        #     gender=gender,
+        #     relationship=relationship,
+        #     phone=phone,
+        #     friends_visibility=friends_visibility,
+        #     country=country,
+        #     city=city,
+        #     state=state,
+        #     address=address,
+        #     working_at=working_at,
+        #     instagram=instagram
+        # )
+
         
-        if p_form.is_valid() and u_form.is_valid():
-            p_form.save()
-            u_form.save()
-            messages.success(request, 'Hồ sơ đã cập nhật thành công')
-            return redirect('userauths:profile-update')
+        p_form.save()
+        u_form.save()
+        print("Profile updated")
+        messages.success(request, 'Hồ sơ đã cập nhật thành công')
+        return redirect('userauths:profile-update')
     else:
         p_form = ProfileUpdateForm(instance=request.user.profile)
         u_form = UserUpdateForm(instance=request.user)

@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'comments',
     
     'cloudinary',
+    'cloudinary_storage',
     'mathfilters',
     'widget_tweaks',
 ]
@@ -156,6 +157,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -167,3 +173,9 @@ cloudinary.config(
     api_key = config('API_KEY'),
     api_secret = config('API_SECRET'),
 )
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUD_NAME'),
+    'API_KEY': config('API_KEY'),
+    'API_SECRET': config('API_SECRET')
+}

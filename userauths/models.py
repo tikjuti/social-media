@@ -5,6 +5,7 @@ from django.utils.html import mark_safe
 from shortuuid.django_fields import ShortUUIDField
 from cloudinary.models import CloudinaryField
 import cloudinary.uploader
+import re
 from django.dispatch import receiver
 
 # Create your models here.
@@ -27,8 +28,8 @@ WHO_CAN_SEE_MY_FRIENDS  = (
 )
 
 class User(AbstractUser):
-    full_name = models.CharField(max_length=255)
-    username = models.CharField(max_length=255)
+    full_name = models.CharField(max_length=255, null=True, blank=True)
+    username = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=50, blank=True, null=True)
     gender = models.CharField(max_length=50, choices=GENDER)
@@ -42,12 +43,15 @@ class User(AbstractUser):
         return str(self.username)
     
     
+    
 class Profile(models.Model):
     pid = ShortUUIDField(length=7, max_length=25, alphabet="abcdefghijklmnopqrstuvxyz123")
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    cover_image = CloudinaryField('cover_image', blank=True, null=True, default="https://res.cloudinary.com/ddfsqd1ru/image/upload/v1715963028/kenh9ewa1adngh4yyeoc.jpg")
-    image = CloudinaryField('image', blank=True, null=True, default="https://res.cloudinary.com/ddfsqd1ru/image/upload/v1715963029/jjalhv4zektgahhxj6yw.jpg")
-    full_name = models.CharField(max_length=255)
+    # cover_image = CloudinaryField('cover_image', blank=True, null=True, default="https://res.cloudinary.com/ddfsqd1ru/image/upload/v1716366005/media/cover_x5yc8e.jpg")
+    # image = CloudinaryField('image', blank=True, null=True, default="https://res.cloudinary.com/ddfsqd1ru/image/upload/v1716366005/media/default_lelg4l.jpg")
+    cover_image = models.ImageField(max_length=300, blank=True, null=True, default="https://res.cloudinary.com/ddfsqd1ru/image/upload/v1716366005/media/cover_x5yc8e.jpg")
+    image = models.ImageField(max_length=255, blank=True, null=True, default="https://res.cloudinary.com/ddfsqd1ru/image/upload/v1716366005/media/default_lelg4l.jpg")
+    full_name = models.CharField(max_length=255, blank=True, null=True)
     bio = models.CharField(max_length=100, blank=True, null=True)
     about_me = models.CharField(max_length=255, blank=True, null=True) 
     phone = models.CharField(max_length=50, blank=True, null=True)
@@ -80,31 +84,46 @@ class Profile(models.Model):
         
     def thumbnail(self):
         return mark_safe('<img src="%s" width="50" height="50" object-fit:"cover" style="border-radius: 30px;" />' % (self.image.url))
+    
+    # def save(self, *args, **kwargs):
+        try:
+            # Kiểm tra và xóa ảnh cũ nếu có
+            if self.pk:
+                old_profile = Profile.objects.get(pk=self.pk)
+                if old_profile.image and old_profile.image != self.image:
+                    cloudinary.uploader.destroy(old_profile.image.public_id)
+                if old_profile.cover_image and old_profile.cover_image != self.cover_image:
+                    cloudinary.uploader.destroy(old_profile.cover_image.public_id)
+
+            # Tải lên ảnh mới
+        
+            if self.cover_image and not isinstance(self.cover_image, str):
+                cloudinary_response_cover = cloudinary.uploader.upload(
+                    self.cover_image,
+                    folder='media/user_{0}'.format(self.user.id)
+                )
+                self.cover_image = cloudinary_response_cover['url']
+            
+            if self.image and not isinstance(self.image, str):
+                cloudinary_response_image = cloudinary.uploader.upload(
+                    self.image,
+                    folder='media/user_{0}'.format(self.user.id)
+                )
+                self.image = cloudinary_response_image['url']
+            
+            super().save(*args, **kwargs)
+        except Exception as e:
+            print(e)
+            super().save(*args, **kwargs)   
 
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
+        Profile.objects.create(user=instance)
         
-        profile = Profile.objects.create(user=instance)
-        
-        if profile.image:
-            cloudinary.uploader.upload(
-                profile.image,
-                folder='media/user_{0}'.format(profile.user.id)
-            )
-            # profile.image = cloudinary_response_image['secure_url']
-
-        if profile.cover_image:
-            cloudinary.uploader.upload(
-                profile.cover_image,
-                folder='media/user_{0}'.format(profile.user.id)
-            )
-            # profile.cover_image = cloudinary_response_cover_image['secure_url']
-
-        profile.save()
 
 def save_user_profile(sender, instance, **kwargs):
-	instance.profile.save()
+    instance.profile.save()
 
 
 post_save.connect(create_user_profile, sender=User)

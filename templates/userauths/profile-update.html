@@ -92,10 +92,10 @@
 
               <script>
                 var loadFile = function (event) {
-                  var output2 = document.getElementById("preview_avatar");
-                  output2.src = URL.createObjectURL(event.target.files[0]);
-                  output2.onload = function () {
-                    URL.revokeObjectURL(output2.src); // free memory
+                  var output = document.getElementById("preview_avatar");
+                  output.src = URL.createObjectURL(event.target.files[0]);
+                  output.onload = function () {
+                    URL.revokeObjectURL(output.src); // free memory
                   };
                 };
 
@@ -110,12 +110,10 @@
             </div>
             <div class="d-none">
               <div class="line">
-                {% render_field p_form.image onchange="loadFile(event)"
-                class="hidden" %}
+                {% render_field p_form.image onchange="loadFile(event)" class="hidden" %}
               </div>
               <div class="line">
-                {% render_field p_form.cover_image onchange="loadFile2(event)"
-                class="hidden" %}
+                {% render_field p_form.cover_image onchange="loadFile2(event)" class="hidden" %}
               </div>
             </div>
             <div class="line">
@@ -131,9 +129,25 @@
               <span for="username" class="line__placeholder"> Giới thiệu </span>
             </div>
             <div class="line">
+              {% render_field p_form.gender class="line__input" %}
+              <span for="username" class="line__placeholder"> Giới tính </span>
+            </div>
+            <div class="line">
               {% render_field p_form.relationship class="line__input" %}
               <span for="username" class="line__placeholder">
                 Tình trạng hôn nhân
+              </span>
+            </div>
+            <div class="line">
+              {% render_field p_form.working_at class="line__input" %}
+              <span for="username" class="line__placeholder">
+                Làm việc tại
+              </span>
+            </div>
+            <div class="line">
+              {% render_field p_form.friends_visibility class="line__input" %}
+              <span for="username" class="line__placeholder">
+                Ai có thể thấy bạn tôi
               </span>
             </div>
           </div>
