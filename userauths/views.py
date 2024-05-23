@@ -7,6 +7,7 @@ from userauths.forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 
 from userauths.models import User, Profile
 from posts.models import Post
+from friends.models import FriendRequest
 
 # Create your views here.
 
@@ -77,6 +78,46 @@ def my_profile(request):
     }
     
     return render(request, 'userauths/my-profile.html', context)
+
+
+@login_required
+def friend_profile(request, username):
+    profile = Profile.objects.get(user__username=username)
+    posts = Post.objects.filter(active=True, user=profile.user)
+
+    # Send Friend Request Feature
+    bool = False
+    bool_friend = False
+
+    sender = request.user
+    receiver = profile.user
+    bool_friend = False
+    print("========================  Thêm hoặc hủy")
+    try:
+        friend_request = FriendRequest.objects.get(sender=sender, receiver=receiver)
+        if friend_request:
+            bool = True
+        else:
+            bool = False
+    except:
+        bool = False
+    # if receiver not in sender.profile.friends.all():
+    #     pass
+    # else:
+    #     print("========================  Unfriend")
+    #     bool_friend = False
+
+    # End Send Friend Request Feature
+    print("Bool =======================", bool)
+    
+
+    context = {
+        "posts":posts,
+        "bool_friend":bool_friend,
+        "bool":bool,
+        "profile":profile,
+    }
+    return render(request, "userauths/friend-profile.html", context)
 
 
 @login_required

@@ -88,6 +88,7 @@
                   const query = $(this).val().trim()
               
                   if (query) {
+                    
                     $.ajax({
                       url: 'user/search/',
                       data: {
@@ -120,7 +121,8 @@
                       error: function () {
                         console.log('Error occurred during the AJAX request.')
                       }
-                    })
+                    }) 
+
                   } else {
                     $('#search-results').empty()
                   }

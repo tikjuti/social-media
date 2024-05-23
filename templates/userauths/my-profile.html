@@ -747,6 +747,18 @@
               </li>
               <li class="flex items-center space-x-2">
                 <ion-icon
+                  name="business-outline"
+                  class="rounded-full bg-gray-200 text-xl p-1 mr-3"
+                ></ion-icon>
+                {% if profile.working_at %} 
+                  Working at
+                <strong> {{profile.working_at}} </strong> 
+                {% else  %} Working at
+                <strong> <a href="" class="dashed">Not added yet</a> </strong>
+                {% endif %}
+              </li>
+              <li class="flex items-center space-x-2">
+                <ion-icon
                   name="heart-sharp"
                   class="rounded-full bg-gray-200 text-xl p-1 mr-3"
                 ></ion-icon>

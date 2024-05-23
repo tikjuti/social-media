@@ -6,8 +6,7 @@
         <a href="{% url 'userauths:profile-update' %}"><i class="uil-cog"></i> Tổng quan</a>
       </li>
       <li class="{% if request.path == '/user/change-password/' or request.path == '/user/password-reset-complete/' %}{% endif %}">
-        {% comment %} <a href="{% url 'change_password'%}"><i class="uil-unlock-alt"></i> Mật khẩu</a> {% endcomment %}
-        <a href="#"><i class="uil-unlock-alt"></i> Mật khẩu</a>
+        <a href="{% url 'userauths:change_password'%}"><i class="uil-unlock-alt"></i> Mật khẩu</a>
       </li>
     </ul>
   </nav>

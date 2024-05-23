@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'userauths',
     'posts',
     'comments',
+    'friends',
     
     'cloudinary',
     'cloudinary_storage',
