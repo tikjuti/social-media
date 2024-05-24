@@ -6,20 +6,19 @@ from shortuuid.django_fields import ShortUUIDField
 import shortuuid
 from django.utils.text import slugify
 from django.utils.html import mark_safe
-# from comments.models import Comment
 
 # Create your models here.
 
 VISIBILITY = (
-    ('public', 'Public'),
-    ('private', 'Private'),
+    ('Everyone', 'Everyone'),
+    ('Only Me', 'Only Me'),
 )
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=200, blank=True, null=True)
-    image = CloudinaryField('image', blank=True, null=True)
-    video = CloudinaryField('video', blank=True, null=True) 
+    image = CloudinaryField('image', folder="media", blank=True, null=True)
+    video = CloudinaryField('video', folder="media", blank=True, null=True) 
     visibility = models.CharField(max_length=50, choices=VISIBILITY, default='public')
     pid = ShortUUIDField(length=7, max_length=25, alphabet="abcdefghijklmnopqrstuvxyz123")
     like = models.ManyToManyField(User, related_name='likes', blank=True)
@@ -39,23 +38,7 @@ class Post(models.Model):
         uuid_key = shortuuid.uuid()
         uniqueid = uuid_key[:4]
         if self.slug == "" or self.slug == None:
-            self.slug = slugify(self.title) + "-" + str(uniqueid.lower())
-        
-        if self.image:
-            # image_url = self.image.url
-            cloudinary.uploader.upload(
-                self.image,
-                folder='media/user_{0}'.format(self.user.id)
-            )
-            # self.image = cloudinary_response_image['secure_url']
-            
-        if self.video:
-            # video_url = self.video.url
-            cloudinary.uploader.upload(
-                self.video,
-                folder='media/user_{0}'.format(self.user.id)
-            )
-            # self.video = cloudinary_response_video['secure_url']
+            self.slug = slugify(self.title) + "-" + str(uniqueid.lower())    
             
         super(Post, self).save(*args, **kwargs) 
         
