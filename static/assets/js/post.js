@@ -298,7 +298,7 @@ $(document).on("click", "#comment-btn", function () {
     console.log(comment);
 
     $.ajax({
-        url: "/comment-post/",
+        url: "/comment/post/",
         dataType: "JSON",
         data: {
             "id": id,
