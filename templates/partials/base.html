@@ -68,16 +68,6 @@
               <input value="" type="text" class="form-control" placeholder="Tìm kiếm trên Facebook" id="search-input" autocomplete="off" />
               <div uk-drop="mode: click" class="header_search_dropdown">
                 <h4 class="search_title">Recently</h4>
-                <!--   <ul>
-                                
-                                <li>
-                                    <a href="#">  
-                                        <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="" class="list-avatar">
-                                        <div class="list-name">  Erica Jones </div>
-                                    </a>
-                                </li>
-
-                            </ul>   -->
                 <ul id="search-results"></ul>
               </div>
             </div>
@@ -197,7 +187,7 @@
                     <ul>
                       {% for n in notification %}
                         <li class="{% if n.is_read == False %}{% endif %} mb-3 mt-3">
-                          <a href="#">
+                          <a href="{% url 'posts:post-detail' n.post.slug %}">
                             <div class="drop_avatar">
                               <img src="{{ n.sender.profile.image.url }}" alt="" />
                             </div>

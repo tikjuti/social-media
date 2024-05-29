@@ -10,6 +10,11 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 import shortuuid    
 from django.core.exceptions import ObjectDoesNotExist
 
+from notifications.views import send_notification
+
+
+noti_new_like = "New Like"
+
 # Create your views here.
 @login_required
 def index(request):
@@ -146,3 +151,29 @@ def edit_post(request):
             return HttpResponse("Invalid request method")
     except ObjectDoesNotExist:
         return JsonResponse({"error": "Post not found"}, status=404)
+    
+    
+@csrf_exempt
+def like_post(request):
+    id = request.GET['id']
+    post = Post.objects.get(id=id)
+    user = request.user
+    bool = False
+    
+    if user in post.like.all():
+        post.like.remove(user)
+        bool = False
+        
+    else:
+        post.like.add(user)
+        bool = True
+        
+        if post.user != request.user:
+            send_notification(post.user, user, post, None, noti_new_like)
+                  
+    data = {
+        'bool': bool,
+        "likes": post.like.all().count()
+    }
+    
+    return JsonResponse({"data":data})

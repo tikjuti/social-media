@@ -337,7 +337,7 @@
                                     {% if p.post_comments.count|sub:2 < 1 %}
                                     <a href="#" class="hover:text-blue-600 hover:underline">No more Comments </a>
                                     {% else %}
-                                    <a href="{% url 'core:post-detail' p.slug %}" class="hover:text-blue-600 hover:underline">  View {{p.post_comments.count|sub:2}} more Comments </a>
+                                    <a href="{% url 'posts:post-detail' p.slug %}" class="hover:text-blue-600 hover:underline">  View {{p.post_comments.count|sub:2}} more Comments </a>
                                     {% endif %}
                                         
 

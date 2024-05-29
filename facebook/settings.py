@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'posts',
     'comments',
     'friends',
+    'notifications',
     
     'cloudinary',
     'cloudinary_storage',
@@ -86,9 +87,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'facebook.context_processors.my_context_processor',
             ],
             'libraries': {
-                'custom_filters': 'posts.custom_filters',
+                'custom_filters': 'facebook.custom_filters',
             },
         },
     },
