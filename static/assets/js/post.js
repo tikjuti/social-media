@@ -341,7 +341,7 @@ $(document).on("click", "#comment-btn", function () {
             $("#comment-count" + id).text(res.data.comment_count);
             $("#comment-input" + id).val("")
 
-            console.log(response.data.bool);
+            console.log(res.data.bool);
         }
     })
 })
@@ -352,7 +352,7 @@ $(document).on("click", "#like-comment-btn", function () {
     console.log(id);
 
     $.ajax({
-        url: "/like-comment/",
+        url: "/comment/like/",
         dataType: "JSON",
         data: {
             "id": id
@@ -390,7 +390,7 @@ $(document).on("click", "#reply-comment-btn", function () {
     console.log(reply);
 
     $.ajax({
-        url: "/reply-comment/",
+        url: "/comment/reply/",
         dataType: "JSON",
         data: {
             "id": id,
@@ -426,7 +426,7 @@ $(document).on("click", "#delete-comment", function () {
     console.log(id);
 
     $.ajax({
-        url: "/delete-comment/",
+        url: "/comment/delete/",
         dataType: "JSON",
         data: {
             "id": id

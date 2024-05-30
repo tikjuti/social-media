@@ -1,13 +1,12 @@
 from django.db import models
 from userauths.models import User
-from posts.models import Post
 from shortuuid.django_fields import ShortUUIDField
 import shortuuid
 
 # Create your models here.
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey('posts.Post', on_delete=models.CASCADE)
     comment = models.CharField(max_length=255)
     cid = ShortUUIDField(length=7, max_length=25, alphabet="abcdefghijklmnopqrstuvxyz123")
     date = models.DateTimeField(auto_now_add=True)
@@ -25,13 +24,6 @@ class Comment(models.Model):
         comment_replies = ReplyComment.objects.filter(comment=self)
         return comment_replies
     
-    @classmethod
-    def post_comments(cls, post):
-        return cls.objects.filter(post=post, active=True)
-
-    @classmethod
-    def post_comments_count(cls, post):
-        return cls.objects.filter(post=post, active=True).count()
     
         
 class ReplyComment(models.Model):

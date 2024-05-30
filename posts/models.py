@@ -6,6 +6,7 @@ from shortuuid.django_fields import ShortUUIDField
 import shortuuid
 from django.utils.text import slugify
 from django.utils.html import mark_safe
+from comments.models import Comment
 
 # Create your models here.
 
@@ -54,11 +55,11 @@ class Post(models.Model):
     def gallery_count(self):
         return Gallery.objects.filter(post=self).count()
     
-    # def post_comments(self):
-    #     return Comment.objects.filter(post=self, active=True)
+    def post_comments(self):
+        return Comment.objects.filter(post=self, active=True)
     
-    # def post_comments_count(self):
-    #     return Comment.objects.filter(post=self, active=True).count()
+    def post_comments_count(self):
+        return Comment.objects.filter(post=self, active=True).count()
         
         
 class Gallery(models.Model):

@@ -1,12 +1,15 @@
 
 from django.views.decorators.csrf import csrf_exempt
 from posts.models import Post
-from .models import Comment
+from .models import Comment, ReplyComment
 from django.utils.timesince import timesince
 from django.http import JsonResponse
 
 from notifications.views import send_notification
+
 noti_new_comment = "New Comment"
+noti_comment_liked = "Comment Liked"
+noti_comment_replied = "Comment Replied"
 
 # Create your views here.
 
@@ -39,3 +42,70 @@ def comment_on_post(request):
     
     return JsonResponse({'data': data})
 
+
+@csrf_exempt
+def like_comment(request):
+    id = request.GET['id']
+    comment = Comment.objects.get(id=id)
+    user = request.user
+    bool = False
+    
+    if user in comment.likes.all():
+        comment.likes.remove(user)
+        bool = False
+    else:
+        comment.likes.add(user)
+        bool = True
+        
+        if comment.user != user:
+            send_notification(comment.user, user, comment.post, comment, noti_comment_liked)
+    
+    data = {
+        'bool': bool,
+        'likes': comment.likes.count()
+    }
+    
+    return JsonResponse({'data': data})
+
+
+@csrf_exempt
+def reply_comment(request):
+    id = request.GET['id']
+    reply = request.GET['reply']
+    
+    comment =Comment.objects.get(id=id)
+    user = request.user
+    
+    new_reply = ReplyComment.objects.create(
+        comment = comment,
+        reply = reply,
+        user = user
+    )
+    
+    if comment.user != user:
+        send_notification(comment.user, user, comment.post, comment, noti_comment_replied)
+
+    data = {
+        'bool': True,
+        'reply': new_reply.reply,
+        'profile_image': new_reply.user.profile.image.url,
+        'date': timesince(new_reply.date),
+        'reply_id': new_reply.id,
+        'post_id': new_reply.comment.post.id
+    }
+    
+    return JsonResponse({'data': data})
+
+
+@csrf_exempt
+def delete_comment(request):
+    id = request.GET['id']
+    
+    comment = Comment.objects.get(id=id, user=request.user)
+    comment.delete()
+    
+    data = {
+        'bool': True,
+    }
+    
+    return JsonResponse({'data': data})
