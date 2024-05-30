@@ -1,4 +1,4 @@
-# from core.models import FriendRequest, Notification, ChatMessage
+from friends.models import FriendRequest
 from notifications.models import Notification
 from userauths.models import User
 from django.db.models import OuterRef, Subquery
@@ -6,10 +6,10 @@ from django.db.models import Q, Count, Sum, F, FloatField
 
 def my_context_processor(request):
 
-    # try:
-    #     friend_request = FriendRequest.objects.filter(receiver=request.user)
-    # except:
-    #     friend_request = None
+    try:
+        friend_request = FriendRequest.objects.filter(receiver=request.user)
+    except:
+        friend_request = None
 
     try:
         notification = Notification.objects.filter(user=request.user)
@@ -38,7 +38,7 @@ def my_context_processor(request):
     #     chat_message = None
 
     return {
-        # "friend_request":friend_request,
+        "friend_request":friend_request,
         "notification":notification,
         # "chat_message":chat_message,
     }

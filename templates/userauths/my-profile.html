@@ -645,7 +645,7 @@
                         <span
                           style="border-bottom: dashed 1px rgb(73, 173, 255)"
                           ><a
-                            href="{% url 'core:post-detail' p.slug %}"
+                            href="{% url 'posts:post-detail' p.slug %}"
                             class="text-blue-500"
                           >
                             <small
@@ -668,7 +668,7 @@
                 </a>
                 {% else %}
                 <a
-                  href="{% url 'core:post-detail' p.slug %}"
+                  href="{% url 'posts:post-detail' p.slug %}"
                   class="hover:text-blue-600 hover:underline"
                 >
                   View {{p.post_comments.count|sub:2}} more Comments
@@ -1198,7 +1198,8 @@
       <div class="p-1">
         {% for f in request.user.profile.friends.all %}
 
-        <a href="{% url 'core:inbox_detail' f.username %}">
+        {% comment %} <a href="{% url 'core:inbox_detail' f.username %}"> {% endcomment %}
+        <a href="#">
           <div class="contact-avatar">
             <img src="{{f.profile.image.url}}" alt="" />
           </div>
