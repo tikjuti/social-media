@@ -321,7 +321,7 @@
                                                         
                                                         {% if c.comment_replies.count > 0 %}
                                                         
-                                                        <span style="border-bottom: dashed 1px rgb(73, 173, 255);"><a href="{% url 'core:post-detail' p.slug %}" class="text-blue-500"> <small>View All {{c.comment_replies.count}} Replies</small> </a></span>
+                                                        <span style="border-bottom: dashed 1px rgb(73, 173, 255);"><a href="{% url 'posts:post-detail' p.slug %}" class="text-blue-500"> <small>View All {{c.comment_replies.count}} Replies</small> </a></span>
                                                         {% endif %}
                                                             
                                                     {% endfor %}

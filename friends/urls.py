@@ -7,4 +7,5 @@ urlpatterns = [
     path("accept/", views.accept_friend_request, name="accept-friend-request"),
     path("unfriend/", views.unfriend, name="unfriend"),
     path("reject/", views.reject_friend_request, name="reject-friend-request"),
+    path("block/", views.block_user, name="block_user"),
 ]
