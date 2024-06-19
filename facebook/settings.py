@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'mathfilters',
     'widget_tweaks',
+    'channels',
 ]
 
 MIDDLEWARE = [

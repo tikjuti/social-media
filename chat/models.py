@@ -19,6 +19,3 @@ class ChatMessage(models.Model):
     class Meta:
         ordering = ["-date"]
         verbose_name_plural = "Personal Chat"
-
-    def thumbnail(self):
-        return mark_safe('<img src="/media/%s" width="50" height="50" object-fit:"cover" style="border-radius: 5px;" />' % (self.image))
