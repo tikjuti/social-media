@@ -26,6 +26,7 @@ urlpatterns = [
     path("user/", include("userauths.urls")),
     path("comment/", include("comments.urls")),
     path("friend/", include("friends.urls")),
+    path("inbox/", include("chat.urls")),
 ]
 
 if settings.DEBUG:
