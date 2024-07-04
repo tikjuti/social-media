@@ -332,8 +332,15 @@
         } else {
             receiver = receiver_id;
         }
+        const socket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + receiver
+            + '/'
+        );
 
-        var socket = new WebSocket('ws://' + window.location.host + '/ws/chat/' + receiver + '/');
+        //var socket = new WebSocket('ws://' + window.location.host + '/ws/chat/' + receiver + '/');
 
         socket.onopen = function () {
             console.log('WebSocket connection established.');
@@ -494,6 +501,7 @@
                 'file_doc':`${fileDoc_data}`,
                 'file_name': `${fileDoc_name}`
             };
+            console.log(data)
             socket.send(JSON.stringify(data));
             input.val('');
             $('#fileInputContainer').empty();

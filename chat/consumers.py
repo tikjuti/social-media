@@ -1,15 +1,17 @@
-from channels.generic.websocket import WebsocketConsumer
-from asgiref.sync import async_to_sync
 import base64
 import os
-import json
-from datetime import datetime
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-from userauths.models import User, Profile
-from .models import ChatMessage
+from django.utils.timesince import timesince
 
+from asgiref.sync import async_to_sync
+from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
+
+import json
+from facebook import settings
+from userauths.models import Profile, User
+from chat.models import ChatMessage
+
+from datetime import datetime
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
@@ -21,65 +23,52 @@ class ChatConsumer(WebsocketConsumer):
         )
 
         self.accept()
-    
+
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(
             self.room_group_name,
             self.channel_name
         )
     
-    def get_extension_from_bytes_data(self, bypes_data: str):
-        header = bypes_data.split(',')[0].split(';')[0]
+    def get_extension_from_bytes_data(self,bypes_data : str):
+        header  = bypes_data.split(',')[0].split(';')[0]
         splashIndex = header.find('/')
-        return header[splashIndex + 1:]
 
-    def process_image(self, bytes_data):
+        return header[splashIndex+1:]
+
+    def process_image(self,bytes_data):
         extension = self.get_extension_from_bytes_data(bypes_data=str(bytes_data))
-        bytes_data = bytes_data.replace(f'data:image/{extension};base64,', '')
+        bytes_data = bytes_data.replace(f'data:image/{extension};base64,','')
         image_data = base64.b64decode(bytes_data)
-        
-        # Tạo tên file duy nhất dựa trên thời gian hiện tại
-        current_datetime_str = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        fileName = current_datetime_str + '.' + extension
-        
-        # Tạo file tạm thời để lưu ảnh
-        temp_file_path = os.path.join('/tmp', fileName)
-        with open(temp_file_path, 'wb') as file:
+        uploads_folder = os.path.join(settings.MEDIA_ROOT, 'uploads/images')   
+        current_datetime_str = datetime.now().strftime('%Y-%m-%d-%H-%M-%S') 
+        fileName = current_datetime_str +'.'+ extension
+        if not os.path.exists(uploads_folder):
+            os.makedirs(uploads_folder)
+        file_path = os.path.join(uploads_folder, fileName)
+        with open(file_path, 'wb') as file:
             file.write(image_data)
-        
-        # Tải ảnh lên Cloudinary
-        response = cloudinary.uploader.upload(temp_file_path)
-        
-        # Xóa file tạm sau khi upload
-        os.remove(temp_file_path)
-        
-        # Trả về URL của ảnh trên Cloudinary
-        return response['secure_url']
+        return fileName
 
-    def process_file(self, file_name, file_data):
-        extension = self.get_extension_from_bytes_data(bypes_data=str(file_data))
-        file_data = file_data.replace(f'data:application/{extension};base64,', '')
-        content = base64.b64decode(file_data)
-        
-        # Tạo file tạm thời để lưu dữ liệu file đã giải mã
-        temp_file_path = os.path.join('/tmp', file_name)
-        with open(temp_file_path, 'wb') as file:
-            file.write(content)
-        
-        # Tải tệp lên Cloudinary
-        response = cloudinary.uploader.upload(temp_file_path, resource_type='raw')
-        
-        # Xóa file tạm sau khi upload
-        os.remove(temp_file_path)
-        
-        # Trả về URL của tệp trên Cloudinary
-        return response['secure_url']
     
+    def process_file(self,file_name,file_data):
+        extension = self.get_extension_from_bytes_data(bypes_data=str(file_data))
+        file_data = file_data.replace(f'data:application/{extension};base64,','')
+        content = base64.b64decode(file_data)
+        uploads_folder = os.path.join(settings.MEDIA_ROOT, 'uploads/files')   
+        if not os.path.exists(uploads_folder):
+            os.makedirs(uploads_folder)
+        file_path = os.path.join(uploads_folder, file_name)
+        with open(file_path, 'wb') as file:
+            file.write(content)
+
+        
     def receive(self, text_data):
         data = json.loads(text_data)
         message_type = data.get('type')
         print("==================== message_type = ", message_type)
         message = data.get('message')
+        print("==================== message = ", message)
         sender_username = data.get('sender')
         image = data.get('image')
         imageName= ''
@@ -97,7 +86,25 @@ class ChatConsumer(WebsocketConsumer):
                 #print(file_data)
         except User.DoesNotExist:
             profile_image = ''
-            
+
+        message = data.get('message')
+        sender_username = data.get('sender')
+        image = data.get('image')
+        imageName= ''
+        file_data = data.get('file_doc')
+        file_name = data.get('file_name')
+        try:
+            sender = User.objects.get(username=sender_username)
+            profile = Profile.objects.get(user=sender)
+            profile_image = profile.image.url
+            if(len(image) >0):
+                imageName =  self.process_image(image)
+            if (len(file_name) > 0 and len(file_data) > 0):
+                self.process_file(file_name,file_data)
+                #print(file_data)
+        except User.DoesNotExist:
+            profile_image = ''
+
         reciever = User.objects.get(username=data['reciever'])
         chat_message = ChatMessage(
             sender=sender,
@@ -124,3 +131,5 @@ class ChatConsumer(WebsocketConsumer):
 
     def chat_message(self, event):
         self.send(text_data=json.dumps(event))
+    
+
