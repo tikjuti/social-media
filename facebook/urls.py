@@ -27,6 +27,7 @@ urlpatterns = [
     path("comment/", include("comments.urls")),
     path("friend/", include("friends.urls")),
     path("inbox/", include("chat.urls")),
+    path("call/", include("call.urls")),
 ]
 
 if settings.DEBUG:

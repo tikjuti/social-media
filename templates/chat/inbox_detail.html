@@ -33,7 +33,7 @@
                         {% for m in chat_message %}
                         {% if request.user == m.sender %}
                         <li>
-                            <a href="{% url 'core:inbox_detail' m.reciever.username %}">
+                            <a href="{% url 'chats:inbox_detail' m.reciever.username %}">
                                 <div class="message-avatar"><i class="status-icon status-online"></i><img
                                         src="{{m.reciever.profile.image.url}}" alt=""></div>
 
@@ -50,7 +50,7 @@
 
                         {% if request.user == m.reciever %}
                         <li>
-                            <a href="{% url 'core:inbox_detail' m.sender.username %}">
+                            <a href="{% url 'chats:inbox_detail' m.sender.username %}">
                                 <div class="message-avatar"><i class="status-icon status-online"></i><img
                                         src="{{m.sender.profile.image.url}}" alt=""></div>
 
@@ -320,8 +320,8 @@
 <script>
     $(function () {
         var receiver = null;
-        var receiver_id = "{{ reciever.username }}";
-        var logged_in = "{{ request.user.username }}";
+        var receiver_id = "{{ reciever.username }}".replace(/\s+/g, '_');
+        var logged_in = "{{ request.user.username }}".replace(/\s+/g, '_');
         const pathname = window.location.pathname;
 
         const parts = pathname.split('/');
@@ -332,15 +332,8 @@
         } else {
             receiver = receiver_id;
         }
-        const socket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/chat/'
-            + receiver
-            + '/'
-        );
 
-        //var socket = new WebSocket('ws://' + window.location.host + '/ws/chat/' + receiver + '/');
+        var socket = new WebSocket('ws://' + window.location.host + '/ws/chat/' + receiver + '/');
 
         socket.onopen = function () {
             console.log('WebSocket connection established.');
@@ -358,8 +351,7 @@
             var profileImage = data.profile_image;
             var reciever = data.reciever;
             var image_path = data.image_paths;
-            var file_path = data.file_paths;
-            var uid = data.uid;
+            var file_path = data.file_paths;    
 
             if (sender === "{{sender}}") {
                 var chatMessage = ''
@@ -406,7 +398,6 @@
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             } else {
                 var chatMessage = ''
-                console.log("uid = " + uid)
                 if (image_path.length != 0) {
                     chatMessage += '<div class="message-bubble">'
                     chatMessage += '<div class="message-bubble-inner">';
@@ -501,7 +492,6 @@
                 'file_doc':`${fileDoc_data}`,
                 'file_name': `${fileDoc_name}`
             };
-            console.log(data)
             socket.send(JSON.stringify(data));
             input.val('');
             $('#fileInputContainer').empty();
@@ -514,7 +504,7 @@
             let fullname = $(this).attr("data-fullname")
             let user_name = $(this).attr("data-username")
     
-            let response = await fetch(`/get_token/?channel=${user_name}`)
+            let response = await fetch(`http://127.0.0.1:8000/call/get_token/?channel=${user_name}`)
             let data = await response.json()
     
             let UID = data.uid
@@ -529,7 +519,7 @@
 
             $('#send-btn').trigger('click');
             
-            window.open(`/core/inbox/${user_name}/video/`, "_blank", "width=800,height=600,left=400,top=100")
+            window.open(`/call/${user_name}/video/`, "_blank", "width=800,height=600,left=400,top=100")
         })
 
     });
@@ -556,7 +546,7 @@
         let fullname = "{{request.user.full_name}}";
         let user_name = "{{receiver_details.username}}"
 
-        let response = await fetch(`/get_token/?channel=${user_name}`)
+        let response = await fetch(`http://127.0.0.1:8000/call/get_token/?channel=${user_name}`)
         let data = await response.json()
 
         let UID = data.uid
@@ -568,7 +558,7 @@
         sessionStorage.setItem('fullname', fullname)
 
 
-        window.open(`/core/inbox/${user_name}/video/`, "_blank", "width=800,height=600,left=400,top=100")
+        window.open(`/call/${user_name}/video/`, "_blank", "width=800,height=600,left=400,top=100")
     }
 
     $('#declineCall').on('click', function() {
@@ -596,6 +586,7 @@
             }
         })
     }
+
     function addImageInputToContainer(selector, selectedFile) {
 
         var reader = new FileReader();
@@ -604,6 +595,7 @@
         };
         reader.readAsDataURL(selectedFile);
     }
+
     function addImageElementToContainer() {
         let dateN = new Date()
         let id = `${dateN.getSeconds()}${dateN.getMinutes()}${dateN.getHours()}`
@@ -619,6 +611,7 @@
         $('#fileInputContainer').append(elementN)
         return '#' + id;
     }
+
     function setEventToDeleteFileIcon(selector) {
         $(selector).click(function (e) {
             $('#' + this.getAttribute('data-target-ele')).remove()

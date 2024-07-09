@@ -6,4 +6,5 @@ app_name = "chats"
 
 urlpatterns = [
     path("<username>/", views.inbox_detail, name="inbox_detail"),
+    
 ]

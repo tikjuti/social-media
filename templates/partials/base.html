@@ -290,7 +290,7 @@
                       {% for m in chat_message %}
                         {% if request.user == m.sender %}
                           <li class="un-read" style="overflow: hidden;">
-                            <a href="{% url 'core:inbox_detail' m.reciever.username %}">
+                            <a href="{% url 'chats:inbox_detail' m.reciever.username %}">
                               <div class="drop_avatar">
                                 <img style="object-fit: cover; width: 40px; height: 40px;" src="{{ m.reciever.profile.image.url }}" alt="" />
                               </div>
@@ -303,7 +303,7 @@
                         {% endif %}
                         {% if request.user == m.reciever %}
                           <li class="un-read" style="overflow: hidden;">
-                            <a href="{% url 'core:inbox_detail' m.sender.username %}">
+                            <a href="{% url 'chats:inbox_detail' m.sender.username %}">
                               <div class="drop_avatar">
                                 <img style="object-fit: cover; width: 40px; height: 40px;" src="{{ m.sender.profile.image.url }}" alt="" />
                               </div>

@@ -8913,69 +8913,81 @@ header .header_inner .right_side {
     padding: 0;
     margin: 0;
 }
-.message-reply__inner{
-    display:  flex;
+
+.message-reply__inner {
+    display: flex;
     justify-content: start;
     -webkit-box-align: start;
     -ms-flex-align: start;
     align-items: flex-start;
     width: 100%;
 }
-.message-reply__action{
-   padding: 6px 8px 6px 8px; 
-   border-radius: 5px;
-   margin-left: 4px;
+
+.message-reply__action {
+    padding: 6px 8px 6px 8px;
+    border-radius: 5px;
+    margin-left: 4px;
 
 }
-.message-reply__action:hover{
+
+.message-reply__action:hover {
     background-color: rgb(240, 239, 239);
 }
-.message-reply__action:hover svg{
+
+.message-reply__action:hover svg {
     color: #007bff !important;
-    fill:#007bff !important;
+    fill: #007bff !important;
 }
-.message-image{
+
+.message-image {
     display: block;
     max-height: 200px;
     max-width: 100%;
     min-width: 50%;
     object-fit: fill;
 }
+
 /* Message Reply File */
-.message-reply__file{
+.message-reply__file {
     position: relative;
     margin-right: 1.2rem;
 }
-.message-reply__file__image{
+
+.message-reply__file__image {
     width: 48px;
     height: 48px;
     object-fit: contain;
 }
-.message-reply__file-delete{
+
+.message-reply__file-delete {
     position: absolute;
     top: 0;
     right: 0;
     transform: translateX(+50%) translateY(-50%);
 }
-.message-reply__file-delete:hover i{
+
+.message-reply__file-delete:hover i {
     color: rgb(154, 154, 154);
 }
-.message-reply__file--doc{
+
+.message-reply__file--doc {
     min-width: 80px;
     max-width: 120px;
     background-color: rgb(238, 238, 238);
 }
-.message-reply__file__name{
+
+.message-reply__file__name {
     font-size: 12px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    flex:1;
+    flex: 1;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     font-weight: bold;
     margin-left: 2px;
 }
+
 /* Message Chat Info */
 .message-info {
     width: 25% !important;
@@ -9019,38 +9031,47 @@ header .header_inner .right_side {
     /* Số dòng tối đa hiển thị */
     -webkit-box-orient: vertical;
 }
-.message-info__btn{
+
+.message-info__btn {
     font-size: 1.2rem;
 }
+
 .call__btn:hover,
 .video-call__btn:hover,
-.message-info__btn:hover{
+.message-info__btn:hover {
     color: #007bff;
 }
-.accordion-header{
+
+.accordion-header {
     padding-left: 0.4rem;
 }
-.accordion-body{
+
+.accordion-body {
     padding: 0.4rem;
 }
-.message-info__action-item{
+
+.message-info__action-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 0.8rem;
 }
 
-.message-info__action-item i{
+.message-info__action-item i {
     font-size: 1.2rem;
 }
-.message-info__action-item span{
+
+.message-info__action-item span {
     cursor: pointer;
     color: black;
     font-size: 1rem;
 }
-.message-info__action-item:hover , .message-info__action-item:hover span{
+
+.message-info__action-item:hover,
+.message-info__action-item:hover span {
     color: #007bff;
 }
+
 /*                   */
 /* Typing Indicastor */
 
@@ -9117,7 +9138,8 @@ header .header_inner .right_side {
         left: 0;
         height: 98vh;
     }
-    .message-info{
+
+    .message-info {
         display: none;
     }
 }
@@ -10523,9 +10545,11 @@ html.dark,
     -webkit-box-shadow: none;
     box-shadow: none;
 }
-.messages-container-inner{
+
+.messages-container-inner {
     position: relative;
 }
+
 /*Level three d*/
 
 .dark .bg-gray-200,
@@ -10677,103 +10701,103 @@ html.dark,
 
 /* video call */
 :root {
-    --shaddow:0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -1px rgba(0,0,0,0.06);
+    --shaddow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 
 /* ------------------  Register Page ------------------ */
 
-#form-container{
+#form-container {
     width: 400px;
-    box-shadow:var(--shaddow);
+    box-shadow: var(--shaddow);
     background-color: #fff;
     padding: 30px;
     border-radius: 5px;
     position: fixed;
-    top:50%;
-    left:50%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
 }
 
-#logo{
+#logo {
     display: block;
     width: 100px;
     margin: 0 auto;
 }
 
-#welcome-message{
+#welcome-message {
     text-align: center;
     margin-bottom: 20px;
 }
 
-#welcome-message h1{
+#welcome-message h1 {
     font-size: 36px;
 }
 
 
-#welcome-message p{
+#welcome-message p {
     font-size: 16px;
     color: rgb(97, 98, 105);
     font-weight: 300;
 }
 
-.form-field{
+.form-field {
     margin-bottom: 20px;
 }
 
-.form-field label{
+.form-field label {
     font-size: 16px;
     line-height: 1.7em;
 }
 
-.form-field input{
+.form-field input {
     width: 100%;
-    border:2px solid rgba(198,202,219,1);
+    border: 2px solid rgba(198, 202, 219, 1);
     border-radius: 5px;
     padding: 10px;
     font-size: 16px;
     box-sizing: border-box;
 }
 
-.form-field input[type='submit']{
+.form-field input[type='submit'] {
     background-color: rgb(75, 93, 172);
-    border:none;
+    border: none;
     color: #fff;
 }
 
 
 @media screen and (max-width:450px) {
-    #form-container{
+    #form-container {
         width: 95%;
 
     }
 
-    #welcome-message h1{
+    #welcome-message h1 {
         font-size: 24px;
     }
-    
+
 }
 
 
 /* ------------------  Streams Page ------------------ */
 
-#room-name-wrapper{
+#room-name-wrapper {
     text-align: center;
     font-size: 18px;
 }
 
-#video-streams{
+#video-streams {
     display: flex;
     flex-wrap: wrap;
     height: 85vh;
     width: 95%;
-    margin:0 auto;
+    margin: 0 auto;
 }
 
 
 
 
-.video-container{
+.video-container {
     flex-basis: 500px;
     flex-grow: 1;
 
@@ -10782,25 +10806,25 @@ html.dark,
     border: 1px solid rgb(75, 93, 172);
     border-radius: 5px;
     margin: 2px;
-    background-color: rgba(198,202,219,1);
+    background-color: rgba(198, 202, 219, 1);
     position: relative;
 }
 
-.video-player{
+.video-player {
     height: 100%;
     width: 100%;
 }
 
-.video-player > * {
+.video-player>* {
     border-radius: 5px;
 }
 
-.username-wrapper{
+.username-wrapper {
     position: absolute;
     top: 10px;
     left: 10px;
     z-index: 9999;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.3);
     width: fit-content;
     padding: 10px;
     border-radius: 5px;
@@ -10809,7 +10833,7 @@ html.dark,
 }
 
 @media screen and (max-width:1650px) {
-    .video-container{
+    .video-container {
         flex-basis: 300px;
         min-height: 200px;
     }
@@ -10819,21 +10843,21 @@ html.dark,
 /* ------------------  Streams Page | Controls ------------------ */
 
 
-#controls-wrapper{
+#controls-wrapper {
     display: flex;
     width: 100%;
     justify-content: center;
     column-gap: 1em;
     padding: 5px 20px;
     position: fixed;
-    bottom:20px;
+    bottom: 20px;
 
 
 }
 
-.control-icon{
-    height: 20px;
-    width: 20px;
+.control-icon {
+    height: 40px;
+    width: 40px;
     box-shadow: var(--shaddow);
     background-color: #fff;
     padding: 10px;
@@ -10841,6 +10865,6 @@ html.dark,
     cursor: pointer;
 }
 
-#leave-btn{
+#leave-btn {
     background-color: rgb(255, 80, 80, 1);
 }

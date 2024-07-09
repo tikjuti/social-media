@@ -1,12 +1,12 @@
 import base64
 import os
-from django.utils.timesince import timesince
 
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 import json
+
 from facebook import settings
 from userauths.models import Profile, User
 from chat.models import ChatMessage
@@ -67,26 +67,7 @@ class ChatConsumer(WebsocketConsumer):
         data = json.loads(text_data)
         message_type = data.get('type')
         print("==================== message_type = ", message_type)
-        message = data.get('message')
-        print("==================== message = ", message)
-        sender_username = data.get('sender')
-        image = data.get('image')
-        imageName= ''
-        file_data = data.get('file_doc')
-        file_name = data.get('file_name')
-        uid = data.get('UID')
-        try:
-            sender = User.objects.get(username=sender_username)
-            profile = Profile.objects.get(user=sender)
-            profile_image = profile.image.url
-            if(len(image) >0):
-                imageName =  self.process_image(image)
-            if (len(file_name) > 0 and len(file_data) > 0):
-                self.process_file(file_name,file_data)
-                #print(file_data)
-        except User.DoesNotExist:
-            profile_image = ''
-
+        print("==================== data = ", data)
         message = data.get('message')
         sender_username = data.get('sender')
         image = data.get('image')
@@ -125,11 +106,8 @@ class ChatConsumer(WebsocketConsumer):
                 'reciever': reciever.username,
                 'image_paths' : imageName,
                 'file_paths' : file_name,
-                'uid': uid
             }
         )
 
     def chat_message(self, event):
         self.send(text_data=json.dumps(event))
-    
-

@@ -51,4 +51,4 @@ def inbox_detail(request, username):
     }
     return render(request, 'chat/inbox_detail.html', context)
 
-    
+
