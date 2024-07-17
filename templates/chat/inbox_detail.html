@@ -109,8 +109,8 @@
                         <div class="message-bubble me">
                             <div class="message-bubble-inner">
                                 <div class="message-text">
-                                    <a href="/media/uploads/images/{{ m.image_paths }} " target="_blank">
-                                        <img src="/media/uploads/images/{{ m.image_paths }}" class="message-image" alt="">
+                                    <a href="{{ m.image_paths }} " target="_blank">
+                                        <img src="{{ m.image_paths }}" class="message-image" alt="">
                                     </a>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                         <div class="message-bubble me">
                             <div class="message-bubble-inner">
                                 <div class="message-text">
-                                    <a href ="/media/uploads/files/{{m.file_paths }}" target="_blank">
+                                    <a href ="{{m.file_paths }}" target="_blank">
                                         <div class="d-flex justify-content-between align-items-center p-1 text-white ">
                                              <i class="bi bi-file-earmark-fill"></i>
                                              <span class="message-reply__file__name">{{m.file_paths }}</span>
@@ -146,8 +146,8 @@
                         <div class="message-bubble">
                             <div class="message-bubble-inner">
                                 <div class="message-text">
-                                    <a href="/media/uploads/images/{{ m.image_paths }}" target="_blank">
-                                        <img src="/media/uploads/images/{{ m.image_paths }}" class="message-image" alt="">
+                                    <a href="{{ m.image_paths }}" target="_blank">
+                                        <img src="{{ m.image_paths }}" class="message-image" alt="">
                                     </a>
                                 </div>
                             </div>
@@ -158,10 +158,10 @@
                         <div class="message-bubble">
                             <div class="message-bubble-inner">
                                 <div class="message-text">
-                                    <a href ="/media/uploads/files/{{m.file_paths }}" target="_blank">
+                                    <a href ="{{m.file_paths }}" target="_blank">
                                         <div class="d-flex justify-content-between align-items-center p-1 text-black ">
                                              <i class="bi bi-file-earmark-fill"></i>
-                                             <span class="message-reply__file__name">{{m.file_paths }}</span>
+                                             <span class="message-reply__file__name">{{m.file_name }}</span>
                                         </div>
                                     </a>
                                 </div>
@@ -351,7 +351,8 @@
             var profileImage = data.profile_image;
             var reciever = data.reciever;
             var image_path = data.image_paths;
-            var file_path = data.file_paths;    
+            var file_path = data.file_paths;       
+            var file_name = data.file_name;       
 
             if (sender === "{{sender}}") {
                 var chatMessage = ''
@@ -360,8 +361,8 @@
                     chatMessage += '<div class="message-bubble me">'
                     chatMessage += '<div class="message-bubble-inner">';
                     chatMessage += '<div class="message-text">';
-                    chatMessage += '<a href = "/media/uploads/images/' + image_path + '" src="/media/uploads/images/' + image_path + '" target="_blank">'    
-                    chatMessage += '<img src="/media/uploads/images/' + image_path + '" class="message-image" alt="">';
+                    chatMessage += '<a href = "' + image_path + '" src="' + image_path + '" target="_blank">'    
+                    chatMessage += '<img src="' + image_path + '" class="message-image" alt="">';
                     chatMessage += '</a>'
                     chatMessage += '</div>';
                     chatMessage += '</div>';
@@ -373,10 +374,10 @@
                     chatMessage += '<div class="message-bubble me">'
                     chatMessage += '<div class="message-bubble-inner">';
                     chatMessage += '<div class="message-text">';
-                    chatMessage += '<a href ="/media/uploads/files/' + file_path + '" target="_blank">'  
+                    chatMessage += '<a href ="' + file_path + '" target="_blank">'  
                     chatMessage += '<div class="d-flex justify-content-between align-items-center p-1 text-black ">'
                     chatMessage += '<i class="bi bi-file-earmark-fill"></i>'
-                    chatMessage += '<span class="message-reply__file__name">'+ file_path + '</span>'
+                    chatMessage += '<span class="message-reply__file__name">'+ file_name + '</span>'
                     chatMessage += '</div>'
                     chatMessage += '</a>'
                     chatMessage += '</div>';
@@ -402,8 +403,8 @@
                     chatMessage += '<div class="message-bubble">'
                     chatMessage += '<div class="message-bubble-inner">';
                     chatMessage += '<div class="message-text">';
-                    chatMessage += '<a href = <img src="/media/uploads/images/' + image_path + '" target="_blank" >'    
-                    chatMessage += '<img src="/media/uploads/images/' + image_path + '" class="message-image" alt="">';
+                    chatMessage += '<a href = <img src="' + image_path + '" target="_blank" >'    
+                    chatMessage += '<img src="' + image_path + '" class="message-image" alt="">';
                     chatMessage += '</a>'
                     chatMessage += '</div>';
                     chatMessage += '</div>';
@@ -416,10 +417,10 @@
                     chatMessage += '<div class="message-bubble me">'
                     chatMessage += '<div class="message-bubble-inner">';
                     chatMessage += '<div class="message-text">';
-                    chatMessage += '<a href = <img src="/media/uploads/files/' + file_path + '" target="_blank">'  
+                    chatMessage += '<a href = <img src="' + file_path + '" target="_blank">'  
                     chatMessage += '<div class="d-flex justify-content-between align-items-center p-1 text-white ">'
                     chatMessage += '<i class="bi bi-file-earmark-fill"></i>'
-                    chatMessage += '<span class="message-reply__file__name">'+ file_path + '</span>'
+                    chatMessage += '<span class="message-reply__file__name">'+ file_name + '</span>'
                     chatMessage += '</div>'
                     chatMessage += '</a>'
                     chatMessage += '</div>';

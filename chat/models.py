@@ -12,6 +12,7 @@ class ChatMessage(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     image_paths = models.CharField(max_length=255,default='')
     file_paths = models.CharField(max_length=255,default='')
+    file_name = models.CharField(max_length=255,default='')
     
     def __str__(self):
         return self.sender.username

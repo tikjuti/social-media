@@ -6,10 +6,13 @@ from channels.generic.websocket import WebsocketConsumer
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 import json
+import cloudinary.uploader
 
 from facebook import settings
 from userauths.models import Profile, User
 from chat.models import ChatMessage
+
+
 
 from datetime import datetime
 class ChatConsumer(WebsocketConsumer):
@@ -36,42 +39,54 @@ class ChatConsumer(WebsocketConsumer):
 
         return header[splashIndex+1:]
 
-    def process_image(self,bytes_data):
-        extension = self.get_extension_from_bytes_data(bypes_data=str(bytes_data))
-        bytes_data = bytes_data.replace(f'data:image/{extension};base64,','')
-        image_data = base64.b64decode(bytes_data)
-        uploads_folder = os.path.join(settings.MEDIA_ROOT, 'uploads/images')   
-        current_datetime_str = datetime.now().strftime('%Y-%m-%d-%H-%M-%S') 
-        fileName = current_datetime_str +'.'+ extension
-        if not os.path.exists(uploads_folder):
-            os.makedirs(uploads_folder)
-        file_path = os.path.join(uploads_folder, fileName)
-        with open(file_path, 'wb') as file:
-            file.write(image_data)
-        return fileName
+    # def process_image(self,bytes_data):
+    #     extension = self.get_extension_from_bytes_data(bypes_data=str(bytes_data))
+    #     bytes_data = bytes_data.replace(f'data:image/{extension};base64,','')
+    #     image_data = base64.b64decode(bytes_data)
+    #     uploads_folder = os.path.join(settings.MEDIA_ROOT, 'uploads/images')   
+    #     current_datetime_str = datetime.now().strftime('%Y-%m-%d-%H-%M-%S') 
+    #     fileName = current_datetime_str +'.'+ extension
+    #     if not os.path.exists(uploads_folder):
+    #         os.makedirs(uploads_folder)
+    #     file_path = os.path.join(uploads_folder, fileName)
+    #     with open(file_path, 'wb') as file:
+    #         file.write(image_data)
+    #     return fileName
 
     
-    def process_file(self,file_name,file_data):
+    # def process_file(self,file_name,file_data):
+    #     extension = self.get_extension_from_bytes_data(bypes_data=str(file_data))
+    #     file_data = file_data.replace(f'data:application/{extension};base64,','')
+    #     content = base64.b64decode(file_data)
+    #     uploads_folder = os.path.join(settings.MEDIA_ROOT, 'uploads/files')   
+    #     if not os.path.exists(uploads_folder):
+    #         os.makedirs(uploads_folder)
+    #     file_path = os.path.join(uploads_folder, file_name)
+    #     with open(file_path, 'wb') as file:
+    #         file.write(content)
+    def process_image(self, bytes_data):
+        extension = self.get_extension_from_bytes_data(bypes_data=str(bytes_data))
+        bytes_data = bytes_data.replace(f'data:image/{extension};base64,', '')
+        image_data = base64.b64decode(bytes_data)
+        result = cloudinary.uploader.upload(image_data, folder='uploads/images')
+        return result['secure_url']
+
+    def process_file(self, file_name, file_data):
         extension = self.get_extension_from_bytes_data(bypes_data=str(file_data))
-        file_data = file_data.replace(f'data:application/{extension};base64,','')
+        file_data = file_data.replace(f'data:application/{extension};base64,', '')
         content = base64.b64decode(file_data)
-        uploads_folder = os.path.join(settings.MEDIA_ROOT, 'uploads/files')   
-        if not os.path.exists(uploads_folder):
-            os.makedirs(uploads_folder)
-        file_path = os.path.join(uploads_folder, file_name)
-        with open(file_path, 'wb') as file:
-            file.write(content)
+        result = cloudinary.uploader.upload(content, resource_type='raw', public_id=file_name, folder='uploads/files')
+        return result['secure_url']
 
         
     def receive(self, text_data):
         data = json.loads(text_data)
         message_type = data.get('type')
-        print("==================== message_type = ", message_type)
-        print("==================== data = ", data)
         message = data.get('message')
         sender_username = data.get('sender')
         image = data.get('image')
         imageName= ''
+        filePath= ''
         file_data = data.get('file_doc')
         file_name = data.get('file_name')
         try:
@@ -81,8 +96,7 @@ class ChatConsumer(WebsocketConsumer):
             if(len(image) >0):
                 imageName =  self.process_image(image)
             if (len(file_name) > 0 and len(file_data) > 0):
-                self.process_file(file_name,file_data)
-                #print(file_data)
+                filePath = self.process_file(file_name,file_data)
         except User.DoesNotExist:
             profile_image = ''
 
@@ -92,7 +106,8 @@ class ChatConsumer(WebsocketConsumer):
             reciever=reciever,
             message=message,
             image_paths = imageName,
-            file_paths = file_name
+            file_paths = filePath,
+            file_name = file_name,
         )
         chat_message.save()
 
@@ -105,7 +120,8 @@ class ChatConsumer(WebsocketConsumer):
                 'profile_image': profile_image,
                 'reciever': reciever.username,
                 'image_paths' : imageName,
-                'file_paths' : file_name,
+                'file_paths' : filePath,
+                'file_name' : file_name,
             }
         )
 
