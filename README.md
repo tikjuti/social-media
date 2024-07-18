@@ -40,12 +40,12 @@ Delete Post, Like Post, Comment Post, Like Comment, Delete Comment, Chat Message
 
 ### 2. Register
 
-<img src="./client/public/register.png" style="zoom:60%" alt="game"/>
+<img src="./static/images/signup.png" style="zoom:60%" alt="game"/>
 
 
 ### 3. Login
 
-<img src="./client/public/login.png" style="zoom:60%" alt="game"/>
+<img src="./static/images/login.png" style="zoom:60%" alt="game"/>
 
 
 ### 4. Shop Page
