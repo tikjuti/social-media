@@ -65,12 +65,12 @@ Delete Post, Like Post, Comment Post, Like Comment, Delete Comment, Chat Message
 
 ### 7. Create Post
 
-<img src="./static/images/createpost.png" style="zoom:60%" alt="game"/>
+<img src="./static/images/creatapost.png" style="zoom:60%" alt="game"/>
 
 
 ### 8. Update Post
 
-<img src="./static/images/editpost" style="zoom:60%" alt="game"/>
+<img src="./static/images/editpost.png" style="zoom:60%" alt="game"/>
 
 
 ### 9. Chat Message
