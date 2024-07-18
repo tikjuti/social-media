@@ -36,7 +36,7 @@ Delete Post, Like Post, Comment Post, Like Comment, Delete Comment, Chat Message
 ## Overview
 ### 1. Home page
 
-<img src="./client/public/home.png" style="zoom:60%" alt="game"/>
+<img src="./static/images/homepage.png" style="zoom:60%" alt="game"/>
 
 ### 2. Register
 
