@@ -48,43 +48,40 @@ Delete Post, Like Post, Comment Post, Like Comment, Delete Comment, Chat Message
 <img src="./static/images/login.png" style="zoom:60%" alt="game"/>
 
 
-### 4. Shop Page
+### 4. Update Profile
 
-<img src="./client/public/shop.png" style="zoom:60%" alt="game"/>
-
-
-### 5. Detail Product
-
-<img src="./client/public/detailproduct.png" style="zoom:60%" alt="game"/>
+<img src="./static/images/updateprofile.png" style="zoom:60%" alt="game"/>
 
 
-### 6. About Page
+### 5. Manage Profile
 
-<img src="./client/public/about.png" style="zoom:60%" alt="game"/>
-
-
-### 7. Contact Page
-
-<img src="./client/public/contact.png" style="zoom:60%" alt="game"/>
+<img src="./static/images/manageprofile.png" style="zoom:60%" alt="game"/>
 
 
-### 8. Cart Page
+### 6. Change Password
 
-<img src="./client/public/cart.png" style="zoom:60%" alt="game"/>
-
-
-### 9. Order Page
-
-<img src="./client/public/order.png" style="zoom:60%" alt="game"/>
+<img src="./static/images/changepassword.png" style="zoom:60%" alt="game"/>
 
 
-### 10. Detail Order
+### 7. Create Post
 
-<img src="./client/public/detailorder.png" style="zoom:60%" alt="game"/>
+<img src="./static/images/createpost.png" style="zoom:60%" alt="game"/>
 
-### 11. Payment
 
-<img src="./client/public/payment.png" style="zoom:60%" alt="game"/>
+### 8. Update Post
+
+<img src="./static/images/editpost" style="zoom:60%" alt="game"/>
+
+
+### 9. Chat Message
+
+<img src="./static/images/chatmessage.png" style="zoom:60%" alt="game"/>
+
+
+### 10. Call Video
+
+<img src="./static/images/callvideo.png" style="zoom:60%" alt="game"/>
+
 
 
 
