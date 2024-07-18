@@ -1,4 +1,6 @@
 # Facebook Clone
+Description: Sign Up, Login, Logout, Update Profile, Manage Profile, Change Password, Search User, Notification, Create Post, Update Post, 
+Delete Post, Like Post, Comment Post, Like Comment, Delete Comment, Chat Message(text, file, image) and Call Video.
 ## Getting started
 ### Download project
 1. Change into the project directory: 
@@ -12,7 +14,7 @@
 ### Start
 
 1. Create the virtual environment:
- ```bash
+ ```bash 
    python3 -m venv env (for windows --> python -m venv env)
    ```
 2. Activate the virtual environment:
