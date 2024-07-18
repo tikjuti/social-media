@@ -13,23 +13,27 @@ Delete Post, Like Post, Comment Post, Like Comment, Delete Comment, Chat Message
    ```
 ### Start
 
-1. Create the virtual environment:
+1. Run Redis with Docker:
+ ```bash 
+   docker run --rm -p 6379:6379 redis:7
+   ```
+2. Create the virtual environment:
  ```bash 
    python3 -m venv env (for windows --> python -m venv env)
    ```
-2. Activate the virtual environment:
+3. Activate the virtual environment:
  ```bash
    source env/bin/activate (for windows --> env\scripts\activate)
    ```
-3. Install packages:
+4. Install packages:
  ```bash
    pip install -r requirement.txt (same for both)
    ```
-4. Update the database:
+5. Update the database:
  ```bash
    python manage.py migrate
    ```
-5. Start the server:
+6. Start the server:
  ```bash
    python manage.py runserver
    ```
